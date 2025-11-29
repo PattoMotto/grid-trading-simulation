@@ -1,0 +1,5 @@
+{
+  "name": "GRID Robot Simulation App",
+  "description": "A forward-testing environment for Grid Trading strategies using stochastic pricing models to simulate market conditions.",
+  "requestFramePermissions": []
+}
