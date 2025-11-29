@@ -1,5 +1,6 @@
 
 import React, { useState, useCallback } from 'react';
+import { Github } from 'lucide-react';
 import ControlPanel from './components/ControlPanel';
 import StatsCard from './components/StatsCard';
 import Charts from './components/Charts';
@@ -12,11 +13,11 @@ const DEFAULT_MARKET: MarketParams = {
   startPrice: 1000,
   steps: 1000,
   model: PricingModel.GBM, // Default model
-  
+
   // GBM & JD
   drift: 0,
   volatility: 0.005,
-  
+
   // OU
   meanReversionSpeed: 0.05,
   longTermMean: 1000,
@@ -50,7 +51,7 @@ const App: React.FC = () => {
   // Simulation Handler
   const handleRunSimulation = useCallback(() => {
     setIsAnimating(true);
-    
+
     requestAnimationFrame(() => {
       const simResult = runSimulation(market, grid);
       setResult(simResult);
@@ -67,8 +68,8 @@ const App: React.FC = () => {
   return (
     <div className="flex h-screen w-screen bg-slate-950 text-slate-200 font-sans overflow-hidden">
       {/* Sidebar */}
-      <ControlPanel 
-        market={market} 
+      <ControlPanel
+        market={market}
         setMarket={setMarket}
         grid={grid}
         setGrid={setGrid}
@@ -77,16 +78,28 @@ const App: React.FC = () => {
 
       {/* Main Content */}
       <main className="flex-1 flex flex-col h-full overflow-hidden relative">
-        
+
         {/* Top Section: Header & Stats */}
         <div className="p-4 pb-2 flex-none">
           <div className="flex justify-between items-center mb-2">
-             <h2 className="text-lg font-bold text-white tracking-tight">Dashboard</h2>
-             {result && (
+            <h2 className="text-lg font-bold text-white tracking-tight">Dashboard</h2>
+            <div className="flex items-center gap-3">
+              <a
+                href="https://github.com/PattoMotto/grid-trading-simulation"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-slate-600 rounded-md transition-all duration-200 text-slate-300 hover:text-white text-sm font-medium"
+                title="View on GitHub"
+              >
+                <Github size={16} />
+                <span>GitHub</span>
+              </a>
+              {result && (
                 <div className="text-[10px] text-slate-500 font-mono bg-slate-900 px-2 py-1 rounded border border-slate-800">
                   SIM TIME: {(Math.random() * 10 + 2).toFixed(2)}ms
                 </div>
               )}
+            </div>
           </div>
           <StatsCard result={result} />
         </div>
@@ -95,14 +108,14 @@ const App: React.FC = () => {
         <div className="flex-1 px-4 pb-2 min-h-0 flex flex-col">
           <div className={`flex-1 bg-slate-900/30 border border-slate-800 rounded-lg overflow-hidden relative transition-opacity duration-300 ${isAnimating ? 'opacity-50' : 'opacity-100'}`}>
             <div className="absolute inset-0 p-4">
-               <Charts result={result} />
+              <Charts result={result} />
             </div>
           </div>
         </div>
 
         {/* Bottom Section: Logs & Data */}
         <div className="h-64 flex-none bg-slate-900 border-t border-slate-800">
-           <BottomPanel result={result} />
+          <BottomPanel result={result} />
         </div>
 
       </main>
